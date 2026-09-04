@@ -35,5 +35,5 @@ YOUTUBE LINK
 
 An unlisted YouTube video explaining the RaceDay planning documents, ERD decisions and API endpoint choices will be provided here.
 
-*YouTube:* [Add video link here]
+*YouTube:* https://youtu.be/NcccnE_zzok?si=GODWBdN3KophQbeF
 
