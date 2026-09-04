@@ -28,7 +28,8 @@ CONTINUOUS INTERGRATION
 
 GitHub Actions are used to validate the project repository.
 
-<!-- Add the green-build screenshot here -->
+<img width="1881" height="1025" alt="Screenshot_4-9-2026_84827_github com" src="https://github.com/user-attachments/assets/e449075e-313c-4468-aa2a-0b4dfb560376" />
+
 
 YOUTUBE LINK
 
