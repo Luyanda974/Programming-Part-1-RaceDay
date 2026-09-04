@@ -1,0 +1,21 @@
+name: RaceDay Repository Check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check-repository:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check required RaceDay files
+        run: |
+          test -f README.md
+          test -f "docs/ProgERD.drawio (1).png"
+          test -f "docs/ProgPart1 API PLANNING.pdf"
+          test -f docs/RaceDay.sql
+          echo "All required RaceDay Part 1 files are present."
