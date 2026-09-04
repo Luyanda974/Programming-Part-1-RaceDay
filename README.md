@@ -21,7 +21,6 @@ Participants can:
 PART 1 DOCUMENTATION
 
 - [ERD](docs/ProgERD.drawio(1).png).
-- [ERD](docs/ProgERD.drawio(1).png).
 - [API Endpoint Plan](docs/ProgPart1APIPLANNING.pdf)
 - [SQL Database Script](docs/RaceDay.sql)
 
