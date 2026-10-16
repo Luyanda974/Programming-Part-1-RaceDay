@@ -87,6 +87,6 @@ The "docs" folder contains the ERD, Part 1 API planning document, and SQL script
 
 Video Demonstration
 
-YouTube link: 
+YouTube link: https://youtu.be/TdkqYZ40Ew8?si=pQ4k5RXaDeVNELhG
 
 
