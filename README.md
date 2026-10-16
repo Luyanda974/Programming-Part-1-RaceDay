@@ -1,4 +1,4 @@
-# Programming-Part-1-RaceDay
+# Programming-RaceDay-Part 1 and 2 ReadMe
 RaceDay is a full-stack event management system designed for road running, walking and cycling events in South Africa. The system allows organisers to create and manage events, categories, participant enrolments and results and participants can register for events and track their own enrolments and results.
 
 USER ROLES
@@ -36,4 +36,6 @@ YOUTUBE LINK
 An unlisted YouTube video explaining the RaceDay planning documents, ERD decisions and API endpoint choices will be provided here.
 
 *YouTube:* https://youtu.be/NcccnE_zzok?si=GODWBdN3KophQbeF
+
+Part 2
 
