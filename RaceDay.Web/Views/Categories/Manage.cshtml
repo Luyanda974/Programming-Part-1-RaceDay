@@ -1,0 +1,114 @@
+﻿@model List<RaceDay.Web.Models.CategoryViewModel>
+
+@{
+    ViewData["Title"] = "Manage Categories";
+}
+
+<div class="container mt-5">
+
+    <h2>Manage Categories</h2>
+
+    <p class="text-muted">
+        View and manage categories linked to your events.
+    </p>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    <a asp-controller="Categories"
+       asp-action="Create"
+       class="btn btn-primary mb-3">
+        Create New Category
+    </a>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            You have not created any categories yet.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-striped">
+
+                <thead>
+                    <tr>
+                        <th>Category Name</th>
+                        <th>Category Type</th>
+                        <th>Event</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var category in Model)
+                    {
+                        <tr>
+                            <td>@category.CategoryName</td>
+
+                            <td>@category.CategoryType</td>
+
+                            <td>@category.EventName</td>
+
+                            <td>
+                                <a asp-controller="Categories"
+                                   asp-action="Edit"
+                                   asp-route-id="@category.CategoryID"
+                                   class="btn btn-warning btn-sm">
+                                    Edit
+                                </a>
+
+                                <form asp-controller="Categories"
+                                      asp-action="Delete"
+                                      asp-route-id="@category.CategoryID"
+                                      method="post"
+                                      class="d-inline">
+
+                                    @Html.AntiForgeryToken()
+
+                                    <button type="submit"
+                                            class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Are you sure you want to delete this category?');">
+                                        Delete
+                                    </button>
+
+                                </form>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+    }
+
+    <a asp-controller="Home"
+       asp-action="Index"
+       class="btn btn-secondary mt-3">
+        Back to Dashboard
+    </a>
+
+</div>
