@@ -68,6 +68,69 @@ namespace RaceDay.Web.Services
             // Convert the API response into the requested model.
             return await response.Content.ReadFromJsonAsync<T>();
         }
+        // POST: Send information to a protected API endpoint using a JWT.
+        public async Task<TResponse?> PostWithTokenAsync<TRequest, TResponse>(
+            string endpoint, TRequest data, string token)
+        {
+            // Create an individual POST request.
+            using var request = new HttpRequestMessage(HttpMethod.Post, endpoint);
+
+            // Attach the participant's JWT token.
+            request.Headers.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue(
+                    "Bearer", token);
+
+            // Convert the request data into JSON.
+            request.Content = System.Net.Http.Json.JsonContent.Create(data);
+
+            // Send the request to the API.
+            var response = await _httpClient.SendAsync(request);
+
+            // Check whether the request was successful.
+            response.EnsureSuccessStatusCode();
+
+            // Read the API response.
+            return await response.Content.ReadFromJsonAsync<TResponse>();
+        }
+        // PUT: Update information through a protected API endpoint using a JWT.
+        public async Task PutWithTokenAsync<TRequest>(
+            string endpoint, TRequest data, string token)
+        {
+            // Create an individual PUT request.
+            using var request = new HttpRequestMessage(HttpMethod.Put, endpoint);
+
+            // Attach the organiser's JWT token.
+            request.Headers.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue(
+                    "Bearer", token);
+
+            // Convert the updated information into JSON.
+            request.Content = System.Net.Http.Json.JsonContent.Create(data);
+
+            // Send the request to the API.
+            var response = await _httpClient.SendAsync(request);
+
+            // Check whether the update was successful.
+            response.EnsureSuccessStatusCode();
+        }
+        // DELETE: Remove information through a protected API endpoint using a JWT.
+        public async Task DeleteWithTokenAsync(string endpoint, string token)
+        {
+            // Create an individual DELETE request.
+            using var request = new HttpRequestMessage(HttpMethod.Delete, endpoint);
+
+            // Attach the organiser's JWT token.
+            request.Headers.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue(
+                    "Bearer", token);
+
+            // Send the request to the API.
+            var response = await _httpClient.SendAsync(request);
+
+            // Check whether the deletion was successful.
+            response.EnsureSuccessStatusCode();
+        }
+
 
     }//end of class
 }//end of namespace
