@@ -1,8 +1,133 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "RaceDay Dashboard";
+
+    string firstName = ViewBag.FirstName ?? "User";
+    string lastName = ViewBag.LastName ?? "";
+    string role = ViewBag.Role ?? "";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5">
+
+    <!-- Welcome message -->
+    <div class="mb-4">
+        <h1>Welcome, @firstName!</h1>
+        <p class="text-muted">
+            Welcome to your RaceDay dashboard.
+        </p>
+
+        <p>
+            <strong>Name:</strong> @firstName @lastName
+            <br />
+            <strong>Role:</strong> @role
+        </p>
+    </div>
+
+    <hr />
+
+    @if (role == "Participant")
+    {
+        <!-- Participant dashboard -->
+        <h3>Participant Dashboard</h3>
+        <p>Manage your race participation from here.</p>
+
+        <div class="row mt-4">
+
+            <div class="col-md-4 mb-3">
+                <div class="card shadow h-100">
+                    <div class="card-body">
+                        <h5>Browse Events</h5>
+
+                        <p>Explore available racing events.</p>
+
+                        <a asp-controller="Events"
+                           asp-action="Index"
+                           class="btn btn-primary">
+                            View Events
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card shadow h-100">
+                    <div class="card-body">
+                        <h5>My Enrolments</h5>
+                        <p>View and manage your event enrolments.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card shadow h-100">
+                    <div class="card-body">
+                        <h5>My Results</h5>
+                        <p>View your race results.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
+    else if (role == "Organiser")
+    {
+        <!-- Organiser dashboard -->
+        <h3>Organiser Dashboard</h3>
+        <p>Manage your racing events from here.</p>
+
+        <div class="row mt-4">
+
+            <div class="col-md-4 mb-3">
+                <div class="card shadow h-100">
+                    <div class="card-body">
+                        <h5>Manage Events</h5>
+                        <p>Create, update and manage events.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card shadow h-100">
+                    <div class="card-body">
+                        <h5>Manage Categories</h5>
+                        <p>View and manage event categories.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card shadow h-100">
+                    <div class="card-body">
+                        <h5>Manage Enrolments</h5>
+                        <p>View participants enrolled in your events.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card shadow h-100">
+                    <div class="card-body">
+                        <h5>Manage Results</h5>
+                        <p>View and manage event results.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <p class="text-danger">
+            Your account role could not be recognised.
+        </p>
+    }
+
+    <!-- Logout button -->
+    <div class="mt-4">
+        <a asp-controller="Auth"
+           asp-action="Logout"
+           class="btn btn-danger">
+            Logout
+        </a>
+    </div>
+
 </div>
