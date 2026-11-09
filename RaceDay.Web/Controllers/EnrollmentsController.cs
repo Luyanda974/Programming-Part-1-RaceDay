@@ -189,5 +189,99 @@ namespace RaceDay.Web.Controllers
                     ?? new List<CategoryViewModel>();
             }
         }
+        // GET: Display enrolments belonging to the organiser's selected event.
+        public async Task<IActionResult> Manage(int? eventID)
+        {
+            // Retrieve the organiser's session information.
+            string? token = HttpContext.Session.GetString("JWToken");
+            string? userIDValue = HttpContext.Session.GetString("UserID");
+            string? role = HttpContext.Session.GetString("Role");
+
+            // Check whether the user is logged in.
+            if (string.IsNullOrEmpty(token))
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+
+            // Only organisers may manage event enrolments.
+            if (role != "Organiser")
+            {
+                return Forbid();
+            }
+
+            // Confirm that the organiser ID is valid.
+            if (!int.TryParse(userIDValue, out int organiserID))
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+
+            try
+            {
+                // Retrieve all events from the API.
+                var events = await _apiService.GetAsync<List<EventViewModel>>(
+                    "api/Events");
+
+                events ??= new List<EventViewModel>();
+
+                // Keep only events belonging to this organiser.
+                var myEvents = events
+                    .Where(item => item.OrganiserID == organiserID)
+                    .ToList();
+
+                // Prepare the page model.
+                var model = new ManageEnrollmentsViewModel
+                {
+                    Events = myEvents,
+                    EventID = eventID
+                };
+
+                // If an event has been selected, retrieve its enrolments.
+                if (eventID.HasValue)
+                {
+                    // Confirm that the selected event belongs to this organiser.
+                    bool ownsEvent = myEvents.Any(
+                        item => item.EventID == eventID.Value);
+
+                    if (!ownsEvent)
+                    {
+                        return Forbid();
+                    }
+
+                    // Retrieve enrolments using the authenticated API endpoint.
+                    var enrollments =
+                        await _apiService.GetWithTokenAsync<List<EnrollmentViewModel>>(
+                            $"api/Enrollments/event/{eventID.Value}", token);
+
+                    model.Enrollments =
+                        enrollments ?? new List<EnrollmentViewModel>();
+
+                    // Retrieve category and event information for display.
+                    foreach (var enrollment in model.Enrollments)
+                    {
+                        var category =
+                            await _apiService.GetAsync<CategoryViewModel>(
+                                $"api/Categories/{enrollment.CategoryID}");
+
+                        enrollment.CategoryName =
+                            category?.CategoryName ?? "Unknown Category";
+
+                        var selectedEvent = myEvents.FirstOrDefault(
+                            item => item.EventID == enrollment.EventID);
+
+                        enrollment.EventName =
+                            selectedEvent?.EventName ?? "Unknown Event";
+                    }
+                }
+
+                return View(model);
+            }
+            catch (HttpRequestException)
+            {
+                ViewBag.ErrorMessage =
+                    "Unable to retrieve enrolments. Please try again.";
+
+                return View(new ManageEnrollmentsViewModel());
+            }
+        }
     }//end of class
 }//end of namespace
