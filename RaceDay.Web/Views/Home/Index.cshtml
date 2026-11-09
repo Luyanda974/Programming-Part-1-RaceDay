@@ -52,17 +52,36 @@
                 <div class="card shadow h-100">
                     <div class="card-body">
                         <h5>My Enrolments</h5>
+
                         <p>View and manage your event enrolments.</p>
+
+                        <a asp-controller="Enrollments"
+                           asp-action="Index"
+                           class="btn btn-primary">
+                            View Enrolments
+                        </a>
+                        <a asp-controller="Enrollments"
+                           asp-action="Create"
+                           class="btn btn-success mt-2">
+                            Enrol in an Event
+                        </a>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-4 mb-3">
-                <div class="card shadow h-100">
-                    <div class="card-body">
-                        <h5>My Results</h5>
-                        <p>View your race results.</p>
-                    </div>
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">My Results</h5>
+
+                    <p class="card-text">
+                        View your race finishing times and positions.
+                    </p>
+
+                    <a asp-controller="Results"
+                       asp-action="Index"
+                       class="btn btn-primary">
+                        View Results
+                    </a>
                 </div>
             </div>
 
@@ -75,12 +94,18 @@
         <p>Manage your racing events from here.</p>
 
         <div class="row mt-4">
-
             <div class="col-md-4 mb-3">
                 <div class="card shadow h-100">
                     <div class="card-body">
                         <h5>Manage Events</h5>
+
                         <p>Create, update and manage events.</p>
+
+                        <a asp-controller="Events"
+                           asp-action="Manage"
+                           class="btn btn-primary">
+                            Manage Events
+                        </a>
                     </div>
                 </div>
             </div>
@@ -90,6 +115,13 @@
                     <div class="card-body">
                         <h5>Manage Categories</h5>
                         <p>View and manage event categories.</p>
+
+                        <a asp-controller="Categories"
+                           asp-action="Manage"
+                           class="btn btn-primary">
+                            Manage Categories
+                        </a>
+
                     </div>
                 </div>
             </div>
