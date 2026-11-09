@@ -1,0 +1,79 @@
+﻿@model RaceDay.Web.Models.LoginRequest
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+
+            <div class="card shadow">
+                <div class="card-body p-4">
+
+                    <h2 class="text-center mb-4">Welcome Back</h2>
+                    <p class="text-center text-muted">
+                        Log in to your RaceDay account.
+                    </p>
+
+                    <!-- Display any login errors -->
+                    <div asp-validation-summary="ModelOnly"
+                         class="text-danger mb-3">
+                    </div>
+
+                    <!-- Login form -->
+                    <form asp-controller="Auth"
+                          asp-action="Login"
+                          method="post">
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label">
+                                Email Address
+                            </label>
+
+                            <input asp-for="Email"
+                                   type="email"
+                                   class="form-control"
+                                   placeholder="Enter your email" />
+
+                            <span asp-validation-for="Email"
+                                  class="text-danger">
+                            </span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label">
+                                Password
+                            </label>
+
+                            <input asp-for="Password"
+                                   type="password"
+                                   class="form-control"
+                                   placeholder="Enter your password" />
+
+                            <span asp-validation-for="Password"
+                                  class="text-danger">
+                            </span>
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-primary w-100">
+                            Login
+                        </button>
+
+                    </form>
+
+                    <p class="text-center mt-3">
+                        Don't have an account?
+                        <a asp-controller="Auth"
+                           asp-action="Register">
+                            Register here
+                        </a>
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
