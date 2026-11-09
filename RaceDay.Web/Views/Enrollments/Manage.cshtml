@@ -1,0 +1,113 @@
+﻿@model RaceDay.Web.Models.ManageEnrollmentsViewModel
+
+@{
+    ViewData["Title"] = "Manage Enrolments";
+}
+
+<div class="container mt-5">
+
+    <h2>Manage Enrolments</h2>
+
+    <p class="text-muted">
+        View participants enrolled in your events.
+    </p>
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+
+            <h5>Select an Event</h5>
+
+            <form asp-controller="Enrollments"
+                  asp-action="Manage"
+                  method="get">
+
+                <div class="mb-3">
+
+                    <select name="eventID" class="form-select">
+
+                        <option value="">
+                            -- Select an event --
+                        </option>
+
+                        @foreach (var eventItem in Model.Events)
+                        {
+                            <option value="@eventItem.EventID"
+                                    selected="@(Model.EventID == eventItem.EventID)">
+                                @eventItem.EventName
+                            </option>
+                        }
+
+                    </select>
+
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    View Enrolments
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+
+    @if (Model.EventID.HasValue)
+    {
+        <h4>Event Enrolments</h4>
+
+        @if (Model.Enrollments == null || !Model.Enrollments.Any())
+        {
+            <div class="alert alert-info">
+                No participants have enrolled in this event yet.
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-striped">
+
+                    <thead>
+                        <tr>
+                            <th>Enrolment ID</th>
+                            <th>Participant ID</th>
+                            <th>Event Name</th>
+                            <th>Category</th>
+                            <th>Enrolment Date</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var enrollment in Model.Enrollments)
+                        {
+                            <tr>
+                                <td>@enrollment.EnrollmentID</td>
+                                <td>@enrollment.ParticipantID</td>
+                                <td>@enrollment.EventName</td>
+                                <td>@enrollment.CategoryName</td>
+                                <td>@enrollment.EnrollmentDate.ToString("dd MMMM yyyy")</td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+    }
+
+    <a asp-controller="Home"
+       asp-action="Index"
+       class="btn btn-secondary mt-3">
+        Back to Dashboard
+    </a>
+
+</div>
