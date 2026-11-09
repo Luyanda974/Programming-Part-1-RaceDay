@@ -26,11 +26,39 @@ namespace RaceDay.Web.Controllers
 
             try
             {
+                // Retrieve the participant's enrolments.
                 var enrollments =
                     await _apiService.GetWithTokenAsync<List<EnrollmentViewModel>>(
                         "api/Enrollments", token);
 
-                return View(enrollments ?? new List<EnrollmentViewModel>());
+                enrollments ??= new List<EnrollmentViewModel>();
+
+                // Retrieve all events from the API.
+                var events = await _apiService.GetAsync<List<EventViewModel>>(
+                    "api/Events");
+
+                // Retrieve all categories from the API.
+                var categories = await _apiService.GetAsync<List<CategoryViewModel>>(
+                    "api/Categories");
+
+                // Match the event and category to each enrolment.
+                foreach (var enrollment in enrollments)
+                {
+                    var selectedEvent = events?.FirstOrDefault(
+                        e => e.EventID == enrollment.EventID);
+
+                    var selectedCategory = categories?.FirstOrDefault(
+                        c => c.CategoryID == enrollment.CategoryID);
+
+                    // Display names instead of database IDs.
+                    enrollment.EventName =
+                        selectedEvent?.EventName ?? "Unknown Event";
+
+                    enrollment.CategoryName =
+                        selectedCategory?.CategoryName ?? "Unknown Category";
+                }
+
+                return View(enrollments);
             }
             catch (HttpRequestException)
             {
@@ -39,6 +67,7 @@ namespace RaceDay.Web.Controllers
 
                 return View(new List<EnrollmentViewModel>());
             }
+        
         }
 
         // Display the form used to enrol in an event.
