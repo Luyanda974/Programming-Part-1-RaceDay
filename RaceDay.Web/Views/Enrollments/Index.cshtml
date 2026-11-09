@@ -1,0 +1,73 @@
+﻿@model List<RaceDay.Web.Models.EnrollmentViewModel>
+
+@{
+    ViewData["Title"] = "My Enrolments";
+}
+
+<div class="container mt-5">
+
+    <h2>My Enrolments</h2>
+
+    <p class="text-muted">
+        View the racing events you have enrolled in.
+    </p>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            You have not enrolled in any events yet.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+
+                <thead>
+                    <tr>
+                        <th>Enrolment ID</th>
+                        <th>Event Name</th>
+                        <th>Category</th>
+                        <th>Enrolment Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var enrollment in Model)
+                    {
+                        <tr>
+                            <td>@enrollment.EnrollmentID</td>
+                            <td>@enrollment.EventName</td>
+                            <td>@enrollment.CategoryName</td>
+                            <td>
+                                @enrollment.EnrollmentDate.ToString("dd MMMM yyyy")
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    }
+
+    <a asp-controller="Events"
+       asp-action="Index"
+       class="btn btn-primary mt-3">
+        Browse Events
+    </a>
+
+</div>
